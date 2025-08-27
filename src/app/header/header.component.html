@@ -76,10 +76,13 @@
               <img
                 height="30px"
                 class="image-color"
+                [ngClass]='{"mx-auto":!isNavOpen}'
                 [src]="'/assets/icons/' + title.icon"
                 alt=""
               />
-              {{ isNavOpen ? title.name : "" }}
+              <span *ngIf="isNavOpenDelay" >
+                {{ isNavOpen ? title.name : "" }}
+              </span>
             </h4>
           </button>
         </ng-container>

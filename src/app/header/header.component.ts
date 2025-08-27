@@ -23,6 +23,8 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   //nav bar variable
   isNavOpen = true;
+  isNavOpenDelay = this.isNavOpen;
+
   currentSection = 0;
   navTitles = [
     { name: 'ABOUT', icon: 'about.png' },
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isNavOpen = !this.isNavOpen;
     setTimeout(() => {
       this.commonService.$updateCursor.next(true);
+      this.isNavOpenDelay = this.isNavOpen;
     }, 500);
   }
 

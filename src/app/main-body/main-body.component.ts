@@ -10,7 +10,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { CommonService } from '../shared/services/common.service';
-import { map, Subscription, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-body',
@@ -156,7 +156,7 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cursorSubject = this.commonService.$updateCursor.subscribe(
       (val: boolean) => {
         this.updateButtonPosition();
-        this.checkScrollSection();
+        // this.checkScrollSection();
       }
     );
 
