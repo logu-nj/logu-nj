@@ -55,20 +55,12 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       img: 'js.png',
     },
     {
-      name: 'ReactJS',
-      img: 'reactjs.png',
+      name: 'Angular',
+      img: 'angular.png',
     },
     {
-      name: 'C',
-      img: 'c.png',
-    },
-    {
-      name: 'C++',
-      img: 'c++.png',
-    },
-    {
-      name: 'Java',
-      img: 'java.png',
+      name: '.Net',
+      img: 'dotnet.png',
     },
     {
       name: 'Python',
@@ -89,6 +81,14 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       name: 'Git',
       img: 'git.png',
+    },
+        {
+      name: 'Docker',
+      img: 'docker.png',
+    },
+        {
+      name: 'AWS',
+      img: 'aws.png',
     },
   ];
 
