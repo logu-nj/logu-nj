@@ -371,8 +371,16 @@
   }
 }
 
+.hide {
+  display: inline-block;
+}
+
 // ── Mobile (≤768px) ─────────────────────────────────────────────
 @media screen and (max-width: 768px) {
+  .hide {
+    display: none !important;
+  }
+
   .main-section {
     .container {
       width: 90%;
@@ -409,7 +417,6 @@
 
         h5 {
           font-size: 0.9rem;
-          text-align: left;
         }
 
         .button-wrapper {
