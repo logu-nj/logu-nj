@@ -122,7 +122,7 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       tech: 'Tech Stack: Angular, .NET Web API, Python, PGAdmin, AWS',
       year: 'Jun 2025 - Nov 2025',
       gitLink: 'https://github.com/',
-      imgLink: 'dob.png',
+      imgLink: 'ml.png',
     },
     {
       name: 'Telecaller',
@@ -131,7 +131,7 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       tech: 'Tech Stack: Angular, .NET Web API, SSE, SignalR, PGAdmin, Chime, EventBridge and Lambda, S3, ElasticCache',
       year: 'Dec 2025 – Feb 2026',
       gitLink: 'https://github.com/',
-      imgLink: 'cgpa.png',
+      imgLink: 'telecaller.jpeg',
     },
     {
       name: 'HE Score',
@@ -140,7 +140,7 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       tech: 'Tech Stack: Angular, .NET Web API, Rest API, WSDL, GRPC, PGAdmin',
       year: 'Feb 2025 – Jun 2025',
       gitLink: 'https://github.com/',
-      imgLink: 'atp.png',
+      imgLink: 'hescore.png',
     },
     {
       name: 'DOB Alert',
@@ -149,7 +149,7 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       tech: 'Tech Stack: Python, SQL, Telegram BOT',
       year: 'Aug 2023 - Sep 2023',
       gitLink: 'https://github.com/',
-      imgLink: 'fyp.png',
+      imgLink: 'dob.png',
     },
   ];
 
@@ -164,8 +164,9 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.buttonRef) {
       this.buttonObj = this.buttonRef.nativeElement;
       setTimeout(() => {
+        this.checkScrollSection();
         this.updateButtonPosition();
-      }, 500);
+      }, 2000);
     }
   }
 
@@ -191,9 +192,10 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Listen for right-box manual scroll (desktop) → update nav highlight
     this.commonService.$checkScroll.subscribe(() => {
-      if (this.commonService.handleScroll) {
-        this.checkScrollSection();
-      }
+      this.updateButtonPosition();
+      // if (this.commonService.handleScroll) {
+      this.checkScrollSection();
+      // }
     });
   }
 
