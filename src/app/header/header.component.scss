@@ -33,6 +33,8 @@
     right: 0;
     left: 0;
     z-index: 1030;
+    background-color: var(--dark-bg); // prevent content bleed-through on scroll
+    border-bottom: 1px solid rgba(115, 52, 209, 0.3);
     .navbar-toggler {
       display: grid;
       place-items: center;
@@ -72,30 +74,12 @@
   color: var(--text-color);
   .left-box {
     width: 25%;
-    border-right: 5px solid white;
+    border-right: 3px solid rgba(255,255,255,0.15);
     transition: var(--transitions);
     padding: 1% 0% 1% 0%;
     top: 0px;
     left: 0px;
     position: relative;
-    &::after {
-      content: "";
-      background-color: var(--dark-bg);
-      position: absolute;
-      width: 30px;
-      top: 0px;
-      right: -6%;
-      height: 5%;
-    }
-    &::before {
-      content: "";
-      background-color: var(--dark-bg);
-      position: absolute;
-      width: 30px;
-      bottom: 0px;
-      right: -6%;
-      height: 5%;
-    }
     .arrow-box {
       position: absolute;
       top: 1%;
@@ -103,9 +87,10 @@
       background-color: var(--dark-bg);
       right: 0%;
       transform: translateX(56%);
-      width: 40px;
-      height: 40px;
-      border: 5px solid white;
+      width: 36px;
+      height: 36px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
       transition: var(--transitions);
       &.reverse {
         transform: rotateZ(-180deg) translateX(-56%);

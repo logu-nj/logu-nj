@@ -49,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscribeAllService() {
     this.sectionSubject = this.commonService.$updateSelectedSection.subscribe(
       (val: number) => {
-        if (val != this.currentSection) this.currentSection = val;
+        // Only update the nav highlight — do NOT scroll
+        this.currentSection = val;
       }
     );
   }
@@ -64,14 +65,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
+  scrollTimer: any;
+
   updateScroll() {
     if (this.commonService.handleScroll) {
-      this.commonService.$updateCursor.next(true);
+      this.commonService.$checkScroll.next();
+    } else {
+      if (this.scrollTimer) clearTimeout(this.scrollTimer);
+      this.scrollTimer = setTimeout(() => {
+        this.commonService.handleScroll = true;
+      }, 400);
     }
   }
 
   updateSection(index: number) {
     this.commonService.handleScroll = false;
-    this.commonService.$updateSelectedSection.next(index);
+    this.currentSection = index;
+    setTimeout(() => {
+      // Use $scrollToSection so main-body scrolls without triggering highlight feedback loop
+      this.commonService.$scrollToSection.next(index);
+    }, 400);
   }
 }

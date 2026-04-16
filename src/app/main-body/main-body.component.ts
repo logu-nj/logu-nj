@@ -8,6 +8,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  HostListener,
 } from '@angular/core';
 import { CommonService } from '../shared/services/common.service';
 import { Subscription } from 'rxjs';
@@ -59,12 +60,16 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       img: 'angular.png',
     },
     {
-      name: '.Net',
+      name: '.Net Core',
       img: 'dotnet.png',
     },
     {
       name: 'Python',
       img: 'python.png',
+    },
+    {
+      name: 'FastAPI',
+      img: 'fastapi.png',
     },
     {
       name: 'Flask',
@@ -82,51 +87,67 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       name: 'Git',
       img: 'git.png',
     },
-        {
+    {
       name: 'Docker',
       img: 'docker.png',
     },
-        {
+    {
       name: 'AWS',
       img: 'aws.png',
+    },
+    {
+      name: 'Huggingface',
+      img: 'huggingface.svg',
+    },
+    {
+      name: 'Ollama',
+      img: 'ollama.png',
+    },
+    {
+      name: 'LangChain',
+      img: 'langchain.svg',
+    },
+    {
+      name: 'LangGraph',
+      img: 'langgraph.png',
     },
   ];
 
   //Projects list
   projectsList = [
     {
-      name: 'DOB Alert',
+      name: 'ML Inspector Match',
       description:
-        "In the 'DOB Alert' project, I'll create a Database to store details of friends and family members. Using a custom algorithm, I'll select a person based on their birth date and set up a reminder using a Telegram bot to wish them on their birthday. This reminder will be triggered using the PythonAnyWhere website.",
-      tech: 'Tech Stack: Python, SQL, Telegram BOT',
-      year: 'Apr 2023 - May 2023',
+        'Engineered high-performance computer vision capabilities by optimizing YOLO models and integrating real-time ML features like live segmentation into an Angular frontend via FastAPI. Improved model accuracy by 6% through data augmentation and hyperparameter tuning. Managed the complete ML pipeline, from deploying scalable AWS SageMaker training jobs using ECR and S3, to building robust .NET Web API microservices backed by PostgreSQL.',
+      tech: 'Tech Stack: Angular, .NET Web API, Python, PGAdmin, AWS',
+      year: 'Jun 2025 - Nov 2025',
       gitLink: 'https://github.com/',
       imgLink: 'dob.png',
     },
     {
-      name: 'CGPA Calculator',
+      name: 'Telecaller',
       description:
-        "In the CGPA Calculator, I'll store individual student details along with their grades in a Database. By processing these details, I'll calculate the GPA (Grade Point Average) and CGPA (Cumulative Grade Point Average) for each student. This project provides an opportunity to delve into SQL joins and deepen my understanding of database operations.",
-      tech: 'Tech Stack: Python, SQL',
-      year: 'Aug 2020 - Oct 2020',
+        'Implemented asynchronous workers and queues to handle long-running tasks efficiently. Architected and implemented high-throughput asynchronous workers using Redis Stream/Kafka, managing 1,000+ messages per second for reliable message delivery. Utilized a Redis backplane to enable seamless cross-pod SignalR communication in a distributed environment. Integrated Amazon Chime to provide high-quality audio, video, and real-time screen-sharing capabilities.',
+      tech: 'Tech Stack: Angular, .NET Web API, SSE, SignalR, PGAdmin, Chime, EventBridge and Lambda, S3, ElasticCache',
+      year: 'Dec 2025 – Feb 2026',
       gitLink: 'https://github.com/',
       imgLink: 'cgpa.png',
     },
     {
-      name: 'Billing Software',
+      name: 'HE Score',
       description:
-        "In this billing software project, I'll incorporate features using CRUD operations. This includes adding new items to the shop and automatically removing them from the list once they're purchased. Additionally, whenever a new item is added, the total product count will increase. These updates will be continuously reflected in the database, ensuring real-time access to data.",
-      tech: 'Tech Stack: HTML, CSS, JS, Python, Flask, SQLite3',
-      year: 'Aug 2023 - Sep 2023',
+        'Built as part of the Inspector Match Website to generate U.S. DOE Home Energy Scores. Implemented frontend validations in Angular for a seamless user experience. Designed .NET microservice architecture with gRPC integration to fetch home information. Converted inputs to HPXML format, processed via WSDL services, and generated compliant energy reports. Integrated a long-running, asynchronous worker for PDF generation, triggered via Kafka for reliable, high-throughput processing.',
+      tech: 'Tech Stack: Angular, .NET Web API, Rest API, WSDL, GRPC, PGAdmin',
+      year: 'Feb 2025 – Jun 2025',
       gitLink: 'https://github.com/',
       imgLink: 'atp.png',
     },
     {
-      name: 'Street Light Fault Detection',
+      name: 'DOB Alert',
       description:
-        'In the Street Light Fault Detection project, I tackled both hardware and software aspects. On the hardware side, I employed an Arduino UNO with an LDR sensor for fault detection, while utilizing a Node MCU (ESP8266) to transmit information to the cloud. On the software end, I developed a React application to retrieve data from the cloud and present it in a web application interface. This project provided valuable insights and knowledge, particularly in integrating hardware with cloud-based solutions and developing Web applications for data visualization.',
-      tech: 'Tech Stack: HTML, CSS, JS, React JS, Arduino Programming, IoT Development',
-      year: 'Feb 2024 - Apr 2024',
+        'Designed a robust SQL database and a custom Python algorithm to efficiently manage and proactively flag upcoming birthdays and recurring events. Integrated an automated Telegram Bot API to deliver timely reminders and personalized wishes to users. Leveraged PythonAnywhere for reliable task scheduling, ensuring 24/7 autonomous operation of the reminder system.',
+      tech: 'Tech Stack: Python, SQL, Telegram BOT',
+      year: 'Aug 2023 - Sep 2023',
       gitLink: 'https://github.com/',
       imgLink: 'fyp.png',
     },
@@ -155,52 +176,75 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
   subscribeAllService() {
     this.cursorSubject = this.commonService.$updateCursor.subscribe(
       (val: boolean) => {
+        // Only update button position on cursor/resize events
         this.updateButtonPosition();
-        // this.checkScrollSection();
       }
     );
 
-    this.sectionSubject = this.commonService.$updateSelectedSection.subscribe(
+    // Listen for NAV CLICK → scroll to that section
+    this.sectionSubject = this.commonService.$scrollToSection.subscribe(
       (ind: number) => {
         this.currentSection = ind;
         this.gotoSection(ind);
-        // setTimeout(()=>{
-        // this.commonService.handleScroll = true;
-        // },1000)
       }
     );
-  }
 
-  gotoSection(ind: number) {
-    this.sectionList
-      ?.get(ind)
-      ?.nativeElement.scrollIntoView({ behavior: 'smooth' },);
-
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        console.log("Scrolling completed!");
-        this.commonService.handleScroll = true;
-        observer.disconnect();
+    // Listen for right-box manual scroll (desktop) → update nav highlight
+    this.commonService.$checkScroll.subscribe(() => {
+      if (this.commonService.handleScroll) {
+        this.checkScrollSection();
       }
     });
+  }
 
-    observer.observe(this.sectionList.get(ind)?.nativeElement);
+  scrollTimer: any;
+
+  gotoSection(ind: number) {
+    // Lock scroll detection while programmatic scroll is running
+    this.commonService.handleScroll = false;
+
+    this.sectionList
+      ?.get(ind)
+      ?.nativeElement.scrollIntoView({ behavior: 'smooth' });
+
+    if (this.scrollTimer) {
+      clearTimeout(this.scrollTimer);
+    }
+
+    // Fallback: re-enable after 2500ms if scroll events stop firing
+    this.scrollTimer = setTimeout(() => {
+      this.commonService.handleScroll = true;
+    }, 2500);
   }
 
   checkScrollSection() {
-    const scrollPosition = window.scrollY + window.innerHeight / 2;
+    // Use getBoundingClientRect() so it works for BOTH window scroll and right-box div scroll
+    const viewportMid = window.innerHeight / 2;
     this.sectionList?.forEach((section: ElementRef, ind: number) => {
       const rect = section.nativeElement.getBoundingClientRect();
-      const top = rect.top + window.scrollY;
-      const bottom = top + rect.height;
-
-      if (scrollPosition >= top && scrollPosition <= bottom) {
+      // Section is "active" when its midpoint straddles the viewport center
+      if (rect.top <= viewportMid && rect.bottom > viewportMid) {
         if (this.currentSection !== ind) {
           this.currentSection = ind;
+          // Only update the nav highlight — do NOT trigger scroll
           this.commonService.$updateSelectedSection.next(ind);
         }
       }
     });
+  }
+
+  scrollTimerWindow: any;
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if (this.commonService.handleScroll) {
+      this.checkScrollSection();
+    } else {
+      if (this.scrollTimerWindow) clearTimeout(this.scrollTimerWindow);
+      this.scrollTimerWindow = setTimeout(() => {
+        this.commonService.handleScroll = true;
+      }, 400);
+    }
   }
 
   unSubscribeAllService() {
