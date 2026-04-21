@@ -36,6 +36,21 @@ export class MainBodyComponent implements OnInit, AfterViewInit, OnDestroy {
   //section subject
   sectionSubject!: Subscription;
 
+  // ── Carousel ────────────────────────────────────────────
+  activeProjectIdx: number = 0;
+
+  prevProject() {
+    if (this.activeProjectIdx > 0) this.activeProjectIdx--;
+  }
+
+  nextProject() {
+    if (this.activeProjectIdx < this.projectsList.length - 1) this.activeProjectIdx++;
+  }
+
+  goToProject(idx: number) {
+    this.activeProjectIdx = idx;
+  }
+
   //update section
   @ViewChildren('section')
   sectionList!: QueryList<ElementRef>;

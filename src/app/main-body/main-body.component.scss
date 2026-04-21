@@ -241,44 +241,222 @@
 
   // ── Projects ────────────────────────────────────────────────
   .project-section {
-    .project-card {
-      .project-image-box {
+
+    // ── Carousel shell ──────────────────────────────
+    .carousel-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .carousel-viewport {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      padding: 4px; // leave room for glow border shadow
+    }
+
+    // ── Arrow buttons ────────────────────────────────
+    .carousel-arrow {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--clr-violet);
+      background: rgba(115, 52, 209, 0.1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.25s ease;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover:not(:disabled) {
+        background: rgba(115, 52, 209, 0.4);
+        border-color: var(--clr-blue);
+        box-shadow: 0 0 16px 3px rgba(0, 196, 255, 0.35);
+      }
+
+      &:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+    }
+
+    // ── Dot indicators ───────────────────────────────
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 1.4rem;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.25);
+      transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
+      padding: 0;
+
+      &.dot-active {
+        background: var(--clr-blue);
+        width: 28px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 2px rgba(0, 196, 255, 0.5);
+      }
+    }
+
+    // ── Counter ──────────────────────────────────────
+    .carousel-counter {
+      text-align: center;
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.08em;
+    }
+
+    // ── Glow border card ─────────────────────────────
+    .card-glow-border {
+      position: relative;
+      border-radius: 16px;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--clr-violet), var(--clr-blue), var(--clr-violet));
+      background-size: 300% 300%;
+      transition: box-shadow 0.4s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 17px;
+        background: inherit;
+        filter: blur(12px);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
+      }
+
+      &.card-active {
+        box-shadow: 0 0 36px 6px rgba(115, 52, 209, 0.4), 0 0 18px 2px rgba(0, 196, 255, 0.25);
+
+        &::before { opacity: 0.65; }
+
+        .card-inner .tech-stack .tech-tags .tag {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .card-inner {
+      background-color: var(--dark-bg);
+      border-radius: 14px;
+      padding: 2rem 2.4rem;
+
+      .card-top-row {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        margin-bottom: 0.75rem;
+      }
 
-        .img-box {
-          width: 100%;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 24px rgba(0, 196, 255, 0.12);
+      .project-number {
+        font-size: 3.5rem;
+        font-weight: 900;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--clr-violet), var(--clr-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 8px rgba(115, 52, 209, 0.5));
+        user-select: none;
+      }
 
-          img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
+      .card-year-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        border: 1px solid var(--clr-violet);
+        color: var(--clr-blue);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+
+      .project-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: #fff;
+      }
+
+      .project-desc {
+        font-size: 0.92rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.75);
+        margin-bottom: 1.2rem;
+      }
+
+      .tech-stack {
+        .tech-label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--clr-blue);
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+
+        .tech-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.4rem;
+
+          .tag {
+            display: inline-block;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            background: rgba(115, 52, 209, 0.18);
+            border: 1px solid rgba(115, 52, 209, 0.4);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.78rem;
+            font-weight: 500;
+            opacity: 0.5;
+            transform: translateY(4px);
+            transition: opacity 0.35s ease, transform 0.35s ease, background 0.25s ease;
 
             &:hover {
-              transform: scale(1.03);
+              background: rgba(0, 196, 255, 0.2);
+              border-color: var(--clr-blue);
+              color: #fff;
             }
           }
         }
       }
-
-      margin-bottom: 10%;
-
-      .project-content {
-        padding: 0% 3%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
     }
   }
+
 
   // ── Contact ─────────────────────────────────────────────────
   .contact-section {
@@ -344,6 +522,28 @@
 @keyframes animate {
   50% {
     filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -492,44 +692,36 @@
 
     // ── Projects ───────────────────────────────────────
     .project-section {
-      .project-card {
+      .carousel-arrow {
+        width: 36px;
+        height: 36px;
 
-        // All project rows stack image-on-top on mobile
-        &.flex-row-reverse {
-          flex-direction: column !important;
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .card-inner {
+        padding: 1.2rem 1rem;
+
+        .project-number {
+          font-size: 2.4rem;
         }
 
-        .project-image-box {
-          .img-box {
-            border-radius: 8px;
-            max-height: 200px;
-            overflow: hidden;
-
-            img {
-              width: 100%;
-              max-height: 200px;
-              object-fit: cover;
-
-              &:hover {
-                transform: none; // disable hover scale on touch
-              }
-            }
-          }
+        .project-title {
+          font-size: 1.05rem;
         }
 
-        .project-content {
-          padding: 1rem 0 0;
-
-          h3 {
-            font-size: 1.1rem;
-          }
-
-          h6 {
-            font-size: 0.85rem;
-          }
+        .project-desc {
+          font-size: 0.83rem;
         }
 
-        margin-bottom: 8%;
+        .tech-stack .tech-tags .tag {
+          font-size: 0.72rem;
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
 
