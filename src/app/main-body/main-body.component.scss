@@ -242,96 +242,33 @@
   // ── Projects ────────────────────────────────────────────────
   .project-section {
 
-    // ── Carousel shell ──────────────────────────────
-    .carousel-wrapper {
+    // ── Grid layout ─────────────────────────────────
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
       display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+      flex-direction: column;
 
-    .carousel-viewport {
-      flex: 1;
-      overflow: hidden;
-      border-radius: 18px;
-    }
+      .card-glow-border {
+        flex: 1;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
 
-    .carousel-track {
-      display: flex;
-      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform;
-    }
+        &:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 0 36px 8px rgba(115, 52, 209, 0.45), 0 0 20px 3px rgba(0, 196, 255, 0.28);
 
-    .carousel-slide {
-      min-width: 100%;
-      padding: 4px; // leave room for glow border shadow
-    }
+          &::before { opacity: 0.7; }
 
-    // ── Arrow buttons ────────────────────────────────
-    .carousel-arrow {
-      flex-shrink: 0;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid var(--clr-violet);
-      background: rgba(115, 52, 209, 0.1);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.25s ease;
-
-      svg {
-        width: 20px;
-        height: 20px;
+          .tech-stack .tech-tags .tag {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
       }
-
-      &:hover:not(:disabled) {
-        background: rgba(115, 52, 209, 0.4);
-        border-color: var(--clr-blue);
-        box-shadow: 0 0 16px 3px rgba(0, 196, 255, 0.35);
-      }
-
-      &:disabled {
-        opacity: 0.25;
-        cursor: default;
-      }
-    }
-
-    // ── Dot indicators ───────────────────────────────
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 0.6rem;
-      margin-top: 1.4rem;
-    }
-
-    .carousel-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.25);
-      transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
-      padding: 0;
-
-      &.dot-active {
-        background: var(--clr-blue);
-        width: 28px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px 2px rgba(0, 196, 255, 0.5);
-      }
-    }
-
-    // ── Counter ──────────────────────────────────────
-    .carousel-counter {
-      text-align: center;
-      margin-top: 0.6rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.45);
-      letter-spacing: 0.08em;
     }
 
     // ── Glow border card ─────────────────────────────
@@ -341,7 +278,6 @@
       padding: 2px;
       background: linear-gradient(135deg, var(--clr-violet), var(--clr-blue), var(--clr-violet));
       background-size: 300% 300%;
-      transition: box-shadow 0.4s ease;
 
       &::before {
         content: '';
@@ -351,26 +287,18 @@
         background: inherit;
         filter: blur(12px);
         opacity: 0;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.35s ease;
         z-index: -1;
-      }
-
-      &.card-active {
-        box-shadow: 0 0 36px 6px rgba(115, 52, 209, 0.4), 0 0 18px 2px rgba(0, 196, 255, 0.25);
-
-        &::before { opacity: 0.65; }
-
-        .card-inner .tech-stack .tech-tags .tag {
-          opacity: 1;
-          transform: translateY(0);
-        }
       }
     }
 
     .card-inner {
       background-color: var(--dark-bg);
       border-radius: 14px;
-      padding: 2rem 2.4rem;
+      padding: 1.75rem 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
 
       .card-top-row {
         display: flex;
@@ -380,7 +308,7 @@
       }
 
       .project-number {
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: 900;
         line-height: 1;
         background: linear-gradient(135deg, var(--clr-violet), var(--clr-blue));
@@ -396,30 +324,31 @@
         border-radius: 20px;
         border: 1px solid var(--clr-violet);
         color: var(--clr-blue);
-        font-size: 0.78rem;
+        font-size: 0.75rem;
         font-weight: 500;
         letter-spacing: 0.04em;
         white-space: nowrap;
       }
 
       .project-title {
-        font-size: 1.4rem;
+        font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.65rem;
         color: #fff;
       }
 
       .project-desc {
-        font-size: 0.92rem;
+        font-size: 0.88rem;
         font-weight: 300;
         line-height: 1.7;
         color: rgba(255, 255, 255, 0.75);
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.1rem;
+        flex: 1;
       }
 
       .tech-stack {
         .tech-label {
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
@@ -435,14 +364,14 @@
 
           .tag {
             display: inline-block;
-            padding: 0.25rem 0.65rem;
+            padding: 0.22rem 0.6rem;
             border-radius: 6px;
             background: rgba(115, 52, 209, 0.18);
             border: 1px solid rgba(115, 52, 209, 0.4);
             color: rgba(255, 255, 255, 0.85);
-            font-size: 0.78rem;
+            font-size: 0.74rem;
             font-weight: 500;
-            opacity: 0.5;
+            opacity: 0.55;
             transform: translateY(4px);
             transition: opacity 0.35s ease, transform 0.35s ease, background 0.25s ease;
 
@@ -692,33 +621,28 @@
 
     // ── Projects ───────────────────────────────────────
     .project-section {
-      .carousel-arrow {
-        width: 36px;
-        height: 36px;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
       }
 
       .card-inner {
-        padding: 1.2rem 1rem;
+        padding: 1.2rem 1.1rem;
 
         .project-number {
-          font-size: 2.4rem;
+          font-size: 2.2rem;
         }
 
         .project-title {
-          font-size: 1.05rem;
+          font-size: 1rem;
         }
 
         .project-desc {
-          font-size: 0.83rem;
+          font-size: 0.82rem;
         }
 
         .tech-stack .tech-tags .tag {
-          font-size: 0.72rem;
+          font-size: 0.7rem;
           opacity: 1;
           transform: translateY(0);
         }
